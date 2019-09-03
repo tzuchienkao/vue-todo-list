@@ -1,17 +1,30 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <orderTop @getItem="getItem" />
+    <orderList :newItem="newItem" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import orderTop from './components/orderTop.vue'
+import orderList from './components/orderList.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    orderTop,
+    orderList
+  },
+  data () {
+    return {
+      newItem: ''
+    }
+  },
+  methods: {
+    getItem(val) {
+      console.log(val);
+      this.newItem = val;
+    }
   }
 }
 </script>
