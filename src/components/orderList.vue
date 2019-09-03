@@ -1,14 +1,6 @@
 <template>
-<div>
-  <!-- <header>
-    <h2>午茶時光</h2>
-    <p>
-      我想要點...
-      <input type="text" v-model="newOrder" @keydown.enter="addOrder()">
-    </p>
-  </header> -->
   <section>
-    <ul class="tabs">
+    <ul class="flex-box tabs">
       <li @click="sortBy('all')">
         <a href="javascript:void(0)">所有訂單 ({{ totalSum }})</a>
       </li>
@@ -20,18 +12,18 @@
       </li>
     </ul>
     <ul class="order-list">
-      <li v-for="(item, index) in list" :key="'item-' + index">
+      <li class="flex-box flex-h-align" v-for="(item, index) in list" :key="'item-' + index">
           <template v-if="item === editItem">
             <input type="text" v-model="item.item" @keydown.enter="doneEdit(item)" @keydown.esc="cancelEdit(item)" @blur="cancelEdit(item)" v-input-focus>
           </template>
           <template v-else>
-            <div>
+            <div class="order-item">
               <input type="checkbox" :id="'item-' + index" v-model="item.done" />
               <label :for="'item-' + index" @dblclick="doEdit(item)">
                 {{ item.item }}
               </label>
             </div>
-            <div>
+            <div class="btn-group">
               <button @click="doEdit(item)">修改</button>
               <button @click="removeOrder(item)">結單</button>
             </div>
@@ -39,7 +31,6 @@
       </li>
     </ul>
   </section>
-  </div>
 </template>
 
 <script>

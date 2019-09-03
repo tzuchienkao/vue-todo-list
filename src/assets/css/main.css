@@ -1,3 +1,89 @@
-.order-list li {
+/* 
+ * reset style
+ */
+body,
+ul,
+li,
+h2,
+input {
+    padding: 0;
+    margin: 0;
+}
+ul,
+li {
+    list-style: none;
+}
+a,
+input {
+    outline: none;
+}
+/* 
+ * common style
+ */
+body {
+    font-family: "Avenir", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+}
+a {
+    color: #2c3e50;
+    text-decoration: none;
+}
+input[type="text"] {
+    font-size: 1em;
+    border: 0;
+    border-bottom: 1px solid #4e4e4e;
+    margin-bottom: 2px;
+}
+input[type="text"]:focus {
+    border-bottom-width: 3px;
+    margin-bottom: 0;
+}
+.flex-box {
     display: flex;
+}
+.flex-h-align {
+    justify-content: space-between;
+}
+/* 
+ * page style
+ */
+#page {
+    width: 70%;
+    margin: 50px auto;
+}
+.tabs {
+    padding: 20px 0;
+    margin-left: -20px;
+    justify-content: flex-start;
+}
+.tabs li:not(:last-child) {
+    border-right: 1px solid #4e4e4e;
+}
+.tabs li a {
+    padding: 0 20px;
+}
+.order-list li {
+    padding: 10px 5px;
+    border-bottom: 1px dashed #4e4e4e;
+}
+.order-list input[type="text"]:focus {
+    width: 100%;
+    padding: 3px 5px;
+    margin: 0 -5px -3px -5px;
+}
+.order-item {
+    text-align: left;
+    flex: 80%;
+}
+.order-item label {
+    width: 90%;
+    margin-left: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+.btn-group button {
+    margin-left: 20px;
 }
