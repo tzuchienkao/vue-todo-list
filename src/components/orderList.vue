@@ -2,13 +2,13 @@
   <section>
     <ul class="flex-box tabs">
       <li @click="sortBy('all')">
-        <a href="javascript:void(0)">所有訂單 ({{ totalSum }})</a>
+        <a :class="{ active: sort === 'all' }" href="javascript:void(0)">所有訂單 ({{ totalSum }})</a>
       </li>
       <li @click="sortBy('nodo')">
-        <a href="javascript:void(0)">未完成 ({{ nodoSum }})</a>
+        <a :class="{ 'active color-red': sort === 'nodo' }" href="javascript:void(0)">未完成 ({{ nodoSum }})</a>
       </li>
       <li @click="sortBy('done')">
-        <a href="javascript:void(0)">已完成 ({{ doneSum }})</a>
+        <a :class="{ 'active color-green': sort === 'done' }" href="javascript:void(0)">已完成 ({{ doneSum }})</a>
       </li>
     </ul>
     <ul class="order-list">
@@ -17,11 +17,17 @@
             <input type="text" v-model="item.item" @keydown.enter="doneEdit(item)" @keydown.esc="cancelEdit(item)" @blur="cancelEdit(item)" v-input-focus>
           </template>
           <template v-else>
-            <div class="order-item">
-              <input type="checkbox" :id="'item-' + index" v-model="item.done" />
-              <label :for="'item-' + index" @dblclick="doEdit(item)">
-                {{ item.item }}
-              </label>
+            <div class="flex-box flex-h-align flex-v-align order-item">
+              <dt class="item-status">
+                <input type="checkbox" :id="'item-' + index" v-model="item.done" />
+                <label :for="'item-' + index">
+                  <i :class="['fa', item.done ? 'fa-bell-slash color-green': 'fa-bell color-red']"></i>
+                </label>
+                <p class="item-name" @dblclick="doEdit(item)">
+                  {{ item.item }}
+                </p>
+              </dt>
+              <dd class="order-date">{{ orderDate(item.time) }}</dd>
             </div>
             <div class="btn-group">
               <button @click="doEdit(item)">修改</button>
@@ -38,16 +44,19 @@ export default {
   name: 'list',
   data() {
     return {
-      sort: 'all',
+      sort: 'nodo',
       orderData: [{
-        item: '綠茶',
-        done: true
+        item: '烏龍綠茶',
+        done: true,
+        time: 1567609941820
       }, {
         item: '紅茶',
-        done: true
+        done: true,
+        time: 1567609966596
       }, {
         item: '綠茶',
-        done: false
+        done: false,
+        time: 1567609982215
       }],
       isEdit: false,
       editItem: null
@@ -55,7 +64,7 @@ export default {
   },
   props: ['newItem'],
   computed: {
-    list: function () {
+    list () {
       let type = this.sort;
       switch (type) {
         case 'all':
@@ -70,21 +79,21 @@ export default {
           });
       }
     },
-    newOrder: function () {
+    newOrder () {
       this.$nextTick(() => {
       });
       return this.newItem;
     },
-    totalSum: function () {
+    totalSum () {
       return this.orderData.length;
     },
-    nodoSum: function () {
+    nodoSum () {
       let nodo = this.orderData.filter(v => {
         return !v.done;
       });
       return nodo.length;
     },
-    doneSum: function () {
+    doneSum () {
       let done = this.orderData.filter(v => {
         return v.done;
       });
@@ -93,12 +102,28 @@ export default {
   },
   watch: {
     newOrder (val) {
-      this.orderData.push({ item: val, done: false });
+      this.orderData.push({ item: val, done: false, time: Date.now() });
     }
   },
   methods: {
     sortBy (type) {
       this.sort = type;
+    },
+    orderDate (time) {
+      let date = new Date(time);
+      let h = date.getHours();
+      let m = date.getMinutes();
+      let s = date.getSeconds();
+      if (h.toString().length < 2) {
+        h = `0${h}`
+      }
+      if (m.toString().length < 2) {
+        m = `0${m}`
+      }
+      if (s.toString().length < 2) {
+        s = `0${s}`
+      }
+      return `${h} : ${m} : ${s}`
     },
     doEdit (item) {
       this.editItem = item;
@@ -126,7 +151,7 @@ export default {
     }
   },
   directives :{
-      inputFocus :{ //自訂標籤名稱
+      inputFocus :{
           inserted: function(el){
               el.focus();
           }

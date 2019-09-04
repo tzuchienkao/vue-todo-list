@@ -1,8 +1,9 @@
 <template>
   <header>
-    <h2>午茶時光</h2>
-    <p>
-      我想要點...
+    <h1>午茶時光
+      <i class="fa fa-cookie-bite"></i></h1>
+    <p class="order-place">
+      <i class="fa fa-coffee"></i>我想要點...
       <input type="text" v-model="newOrder" @keydown.enter="addOrder()">
     </p>
   </header>
@@ -22,26 +23,6 @@ export default {
       if(!item) return;
       this.$emit('getItem', this.newOrder);
       this.newOrder = '';
-    },
-    doEdit (item) {
-      this.editItem = item;
-      this.beforeEditCache = item.item;
-    },
-    cancelEdit (item) {
-      if (!this.isEdit) {
-        this.editItem = null;
-        item.item = this.beforeEditCache;
-      }
-      this.isEdit = false;
-    },
-    doneEdit (item) {
-      if(!this.editItem) return;
-      this.editItem = null;
-      item.item = item.item.trim();
-      // if(!item.item){
-      //     this.removeData(item)
-      // }
-      this.isEdit = true;
     }
   },
   directives :{
